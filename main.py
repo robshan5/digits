@@ -17,18 +17,19 @@ with open("training.csv") as file:
         X, y, test_size=0.5, shuffle=False, random_state=0
     )
 
-    # training the data with a KNN 5 neighbours
-    cls = KNeighborsClassifier(n_neighbors=5)
-    cls.fit(X_train, Y_train)
+    for i in [1, 5, 10, 15]:
+        # training the data with a KNN 5 neighbours
+        cls = KNeighborsClassifier(n_neighbors=i)
+        cls.fit(X_train, Y_train)
 
-    y_pred = cls.predict(X_test)
+        y_pred = cls.predict(X_test)
 
-    acc = metrics.accuracy_score(y_pred, Y_test)
+        acc = metrics.accuracy_score(y_pred, Y_test)
 
-    print(acc)
+        print(acc)
 
-    # display confusion matrix of predictions
-    disp = metrics.ConfusionMatrixDisplay.from_predictions(Y_test, y_pred)
-    disp.figure_.suptitle("Confusion Matrix")
-    plt.show()
-    disp.figure_.savefig("Confusion_Matrix.png")
+        # display confusion matrix of predictions
+        disp = metrics.ConfusionMatrixDisplay.from_predictions(Y_test, y_pred)
+        disp.figure_.suptitle(f"Confusion Matrix using {i} Nearest Neighbours")
+        name = f"Confusion_Matrix_{i}NN.png"
+        disp.figure_.savefig(name)
